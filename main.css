@@ -18,7 +18,6 @@ main {
     margin: auto;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
 }
 footer {
@@ -26,6 +25,13 @@ footer {
     padding: 15px;
     margin: auto;
     text-align: center;
+}
+h2 {
+    margin-top: 15px;
+    text-align: center;
+}
+p {
+    margin-top: 15px;
 }
 button {
     padding: 6px 8px;
@@ -36,7 +42,17 @@ button:hover {
     background-color: gold;
     cursor: pointer;
 }
+#inputInterface {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 #userTextInput {
     width: 90%;
     border: 1px solid black;
+}
+#summary {
+    margin-top: 0px;
 }
