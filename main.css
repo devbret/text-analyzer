@@ -27,7 +27,7 @@ footer {
     text-align: center;
 }
 h2 {
-    margin-top: 15px;
+    margin-top: 30px;
     text-align: center;
 }
 p {
@@ -52,6 +52,9 @@ button:hover {
 #userTextInput {
     width: 90%;
     border: 1px solid black;
+}
+#results {
+    width: 100%;
 }
 #summary {
     margin-top: 0px;
