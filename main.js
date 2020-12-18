@@ -1,9 +1,14 @@
 function main() {
     //////////Primary program variables.
     const userTextInput = document.querySelector(`#userTextInput`);
+    const optionsButton = document.querySelector(`#optionsButton`);
     const submitButton = document.querySelector(`#submitButton`);
+    const options = document.querySelector(`#options`);
+    const exclude = document.querySelector(`#exclude`);
+    const extraWords = document.querySelector(`#extraWords`);
     const results = document.querySelector(`#results`);
-    let excludedWords = [`the`,`be`,`of`,`and`,`a`,`to`,`in`,`he`,`have`,`it`,`that`,`for`,`they`,`i`,`with`,`as`,`not`,`on`,`she`,`at`,`by`,`this`,`we`,`you`,`do`,`but`,`from`,`or`,`which`,`one`,`would`,`all`,`will`,`there`,`say`,`who`,`make`,`when`,`can`,`more`,`if`,`no`,`man`,`out`,`other`,`so`,`what`,`time`,`up`,`go`,`about`,`than`,`into`,`could`,`state`,`only`,`new`,`year`,`some`,`take`,`come`,`these`,`know`,`see`,`use`,`get`,`like`,`then`,`first`,`any`,`work`,`now`,`may`,`such`,`give`,`over`,`think`,`most`,`even`,`find`,`day`,`also`,`after`,`way`,`many`,`must`,`look`,`before`,`great`,`back`,`through`,`long`,`where`,`much`,`should`,`well`,`people`,`down`,`own`,`just`,`his`,`was`,`had`,`him`,`an`,`were`,`its`,`is`,`me`,`your`,`got`,`been`,`here`,`them`,`my`,`youre`,`their`,`are`,`dont`,`took`,`im`,`her`,`how`,`thats`,`himself`,`said`,`hed`,`else`,`am`,`yet`,`our`,`did`,`very`,`every`,`shall`,`saw`,`those`,`whom`,`has`,`thus`,`us`,`went`,`upon`,`herself`,`oh`,`la`,`el`,`ever`,`cant`,`ie`,`mr`,`miss`,`mrs`,`ms`,`having`,`came`,`yeah`,`mean`,`too`,`theyre`,`youve`,`ive`,`didnt`,`ye`,`unto`,`thou`,`hath`,`thee`,`thy`];
+    let opened = 0;
+    let excludedWords = [];
     const vowels = [`a`,`e`,`i`,`o`,`u`];
     const punctuation = [`.`,`,`,`?`,`!`,`:`,`;`,`-`,`_`,`'`,`"`,`(`,`)`,`]`,`[`,`/`,`@`,`#`,`$`,`%`,`^`,`&`,`*`,`=`,`\\`,`|`,`{`,`}`,`<`,`>`,"`",`~`];
     let totalPunctuation = 0;
@@ -11,7 +16,27 @@ function main() {
     let totalChars = 0;
     let totalVowels = 0;
     let totalConsonants = 0;
-    //////////Support functions for main part of program.
+    //////////Reading settings, as determined by the user.
+    //Whether or not the default words are excluded from processing.
+    function excludeCheck() {
+        if (exclude.checked) {
+            let tempArray = [`the`,`be`,`of`,`and`,`a`,`to`,`in`,`he`,`have`,`it`,`that`,`for`,`they`,`i`,`with`,`as`,`not`,`on`,`she`,`at`,`by`,`this`,`we`,`you`,`do`,`but`,`from`,`or`,`which`,`one`,`would`,`all`,`will`,`there`,`say`,`who`,`make`,`when`,`can`,`more`,`if`,`no`,`man`,`out`,`other`,`so`,`what`,`time`,`up`,`go`,`about`,`than`,`into`,`could`,`state`,`only`,`new`,`year`,`some`,`take`,`come`,`these`,`know`,`see`,`use`,`get`,`like`,`then`,`first`,`any`,`work`,`now`,`may`,`such`,`give`,`over`,`think`,`most`,`even`,`find`,`day`,`also`,`after`,`way`,`many`,`must`,`look`,`before`,`great`,`back`,`through`,`long`,`where`,`much`,`should`,`well`,`people`,`down`,`own`,`just`,`his`,`was`,`had`,`him`,`an`,`were`,`its`,`is`,`me`,`your`,`got`,`been`,`here`,`them`,`my`,`youre`,`their`,`are`,`dont`,`took`,`im`,`her`,`how`,`thats`,`himself`,`said`,`hed`,`else`,`am`,`yet`,`our`,`did`,`very`,`every`,`shall`,`saw`,`those`,`whom`,`has`,`thus`,`us`,`went`,`upon`,`herself`,`oh`,`la`,`el`,`ever`,`cant`,`ie`,`mr`,`miss`,`mrs`,`ms`,`having`,`came`,`yeah`,`mean`,`too`,`theyre`,`youve`,`ive`,`didnt`,`ye`,`unto`,`thou`,`hath`,`thee`,`thy`];
+            for (let i = 0; i < tempArray.length; i++) {
+                excludedWords.push(tempArray[i]);
+            }
+        } else {
+            excludedWords = [];
+        }
+    }
+    //Adding and additional words submitted by the user to be excluded.
+    function additionalExcludedWords() {
+        const temp = extraWords.value.split(`,`);
+        for (let i = 0; i < temp.length; i++) {
+            const trimmed = temp[i].trim();
+            excludedWords.push(trimmed);
+        }
+    }
+    //////////Support functions for the program.
     //Produces usable data for the program; including the calculation of unique letters.
     function filterData(t,ind){
         const temp = ind.split(``);
@@ -55,8 +80,20 @@ function main() {
         }
         return t;
     }
-    //Searches for dual instances.
-    function dualMemberReduce(t,i,index,arr){
+    //Searches for dual letter instances.
+    function dualLetterReduce(t,i,index,arr){
+        if (arr[index] && arr[index + 1]) {
+            if (t.every(z => z.word !== `${arr[index]}${arr[index + 1]}`)) {
+                t.push({word:`${arr[index]}${arr[index + 1]}`,times:1});
+            } else {
+                const indy = t.findIndex(x => x.word === `${arr[index]}${arr[index + 1]}`);
+                ++t[indy].times;
+            }
+        }
+        return t;
+    }
+    //Searches for dual word instances.
+    function dualWordReduce(t,i,index,arr){
         if (arr[index] && arr[index + 1]) {
             if (t.every(z => z.word !== `${arr[index]} ${arr[index + 1]}`)) {
                 t.push({word:`${arr[index]} ${arr[index + 1]}`,times:1});
@@ -101,6 +138,16 @@ function main() {
             element.innerHTML += `${array[i].word}, `;
         }
     }
+    //////////The options button logic.
+    optionsButton.addEventListener(`click`, function(){
+        if (opened === 0) {
+            ++opened;
+            options.style.display = `block`;
+        } else {
+            opened = 0;
+            options.style.display = `none`;
+        }
+    });
     //////////The primary action/function for this program.
     submitButton.addEventListener(`click`, function(){
         //Making sure the user has input at least one character value before running the application.
@@ -109,6 +156,10 @@ function main() {
             const startTime = new Date();
             //Clearing all of the output fields to ensure previous results are not displayed.
             results.innerHTML = ``;
+            //Checking to see if the use wants the default set of words to be excluded.
+            excludeCheck();
+            //Adding any additional words submitted by the user to be excluded from final results.
+            additionalExcludedWords();
             //Calculating the number of sentences.
             let totalSentences = userTextInput.value.split(`. `).length;
             totalSentences += userTextInput.value.split(`." `).length;
@@ -123,11 +174,11 @@ function main() {
             const data = filteredData.reduce(filterData,[]);
             //Unique two letter combos.
             const joinedAndSplitData = data.join(``).split(``);
-            const uniqueTwoLetterCombos = joinedAndSplitData.reduce(dualMemberReduce,[]);
+            const uniqueTwoLetterCombos = joinedAndSplitData.reduce(dualLetterReduce,[]);
             //Unique individual words.
             const uniqueWords = data.reduce(singleMemberReduce,[]);
             //Unique two word phrases
-            const uniqueTwoWordPhrases = data.reduce(dualMemberReduce,[]);
+            const uniqueTwoWordPhrases = data.reduce(dualWordReduce,[]);
             //Sorting the individual letters so that the most common is at the front.
             const sortedUniqueLetters = totalLetters.sort(properSort);
             ////Sorting the two letter combos so that the most common is at the front.
