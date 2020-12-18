@@ -36,11 +36,17 @@ p {
 button {
     padding: 6px 8px;
     border: 1px solid black;
-    margin: 15px 0px;
+    margin: 15px 3px;
 }
 button:hover {
     background-color: gold;
     cursor: pointer;
+}
+.optionsTextSpacing {
+    margin: 0px 0px 0px 3px;
+}
+.optionsTextSpacingVertical {
+    margin: 0px;
 }
 #inputInterface {
     width: 100%;
@@ -53,8 +59,31 @@ button:hover {
     width: 90%;
     border: 1px solid black;
 }
-#results {
+#buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
+}
+#options, #results {
+    width: 100%;
+}
+#options {
+    display: none;
+}
+#options h2 {
+    margin-top: 0px;
+}
+#options div {
+    display: flex;
+}
+#extraWordsDiv {
+    flex-direction: column;
+}
+#extraWords {
+    border: 1px solid black;
+    width: 300px;
+    margin: 10px 0px 3px 0px;
 }
 #summary {
     margin-top: 0px;
