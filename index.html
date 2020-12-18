@@ -15,7 +15,21 @@
     <main>
       <div id="inputInterface">
         <input id="userTextInput" placeholder="Enter text here">
-        <button id="submitButton">Submit</button>
+        <div id="buttons">
+          <button id="optionsButton">Options</button>
+          <button id="submitButton">Submit</button>
+        </div>
+      </div>
+      <div id="options">
+        <h2>Options</h2>
+        <div>
+          <input type="checkbox" checked="true" id="exclude">
+          <p class="optionsTextSpacing">Exclude default words</p>
+        </div>
+        <div id="extraWordsDiv">
+          <input id="extraWords" placeholder="Enter comma separated words here">
+          <p class="optionsTextSpacingVertical">Additional words to exclude</p>
+        </div>
       </div>
       <div id="results">
         <p>Enter text into the field above, and press Submit for your results.</p>
