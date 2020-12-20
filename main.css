@@ -48,6 +48,9 @@ button:hover {
 .optionsTextSpacingVertical {
     margin: 0px;
 }
+.detailedStats {
+    color: grey;
+}
 #inputInterface {
     width: 100%;
     display: flex;
