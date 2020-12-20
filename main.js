@@ -135,7 +135,7 @@ function main() {
             if (!array[i]) {
                 break;
             }
-            element.innerHTML += `${array[i].word}, `;
+            element.innerHTML += `${array[i].word} <span class="detailedStats">(${array[i].times})</span>, `;
         }
     }
     //////////The options button logic.
