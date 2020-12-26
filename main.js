@@ -6,6 +6,12 @@ function main() {
     const options = document.querySelector(`#options`);
     const exclude = document.querySelector(`#exclude`);
     const extraWords = document.querySelector(`#extraWords`);
+    const numOfTwoLetters = document.querySelector(`#numOfTwoLetters`);
+    const numOfTwoLettersRep = document.querySelector(`#numOfTwoLettersRep`);
+    const numOfSingleWords = document.querySelector(`#numOfSingleWords`);
+    const numOfSingleWordsRep = document.querySelector(`#numOfSingleWordsRep`);
+    const numOfTwoWordPhrases = document.querySelector(`#numOfTwoWordPhrases`);
+    const numOfTwoWordPhrasesRep = document.querySelector(`#numOfTwoWordPhrasesRep`);
     const results = document.querySelector(`#results`);
     let opened = 0;
     let excludedWords = [];
@@ -148,6 +154,18 @@ function main() {
             options.style.display = `none`;
         }
     });
+    //////////Number of two letter combinations to display.
+    numOfTwoLetters.addEventListener(`input`, function(){
+        numOfTwoLettersRep.innerText = this.value;
+    });
+    //////////Number of single words to display.
+    numOfSingleWords.addEventListener(`input`, function(){
+        numOfSingleWordsRep.innerText = this.value;
+    });
+    //////////Number of two word phrases to display.
+    numOfTwoWordPhrases.addEventListener(`input`, function(){
+        numOfTwoWordPhrasesRep.innerText = this.value;
+    });
     //////////The primary action/function for this program.
     submitButton.addEventListener(`click`, function(){
         //Making sure the user has input at least one character value before running the application.
@@ -156,6 +174,8 @@ function main() {
             const startTime = new Date();
             //Clearing all of the output fields to ensure previous results are not displayed.
             results.innerHTML = ``;
+            //Reseting the words to exclude, so that no added words from previous runs are included.
+            excludedWords = [];
             //Checking to see if the use wants the default set of words to be excluded.
             excludeCheck();
             //Adding any additional words submitted by the user to be excluded from final results.
@@ -201,15 +221,15 @@ function main() {
             //Displaying the two letter combos.
             makeHTMLElement(`h2`,`Common Two Letter Combos`);
             makeParagraphElement(`commonLetterCombos`)
-            displayItems(50,commonLetterCombos,sortTwoLetterCombos);
+            displayItems(numOfTwoLetters.value,commonLetterCombos,sortTwoLetterCombos);
             //Displaying the common single words used.
             makeHTMLElement(`h2`,`Common Single Words`);
             makeParagraphElement(`commonWords`)
-            displayItems(50,commonWords,sortedUniqueWords);
+            displayItems(numOfSingleWords.value,commonWords,sortedUniqueWords);
             //Displaying the common two word phrases used.
             makeHTMLElement(`h2`,`Common Two Word Phrases`);
             makeParagraphElement(`commonPhrases`)
-            displayItems(50,commonPhrases,sortedTwoWordPhrases);
+            displayItems(numOfTwoWordPhrases.value,commonPhrases,sortedTwoWordPhrases);
         }
     });
 }
