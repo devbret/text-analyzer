@@ -51,6 +51,16 @@ button:hover {
 .detailedStats {
     color: grey;
 }
+.variableNumbersToDisplay {
+    display: flex;
+    flex-direction: column;
+}
+.variableNumbersToDisplay div {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    line-height: 100%;
+}
 #inputInterface {
     width: 100%;
     display: flex;
@@ -73,6 +83,9 @@ button:hover {
 }
 #options {
     display: none;
+    padding: 10px 15px 15px 15px;
+    border: 1px solid black;
+    margin: 0px 0px 15px 0px;
 }
 #options h2 {
     margin-top: 0px;
@@ -88,6 +101,18 @@ button:hover {
     width: 300px;
     margin: 10px 0px 3px 0px;
 }
+#numOfTwoLettersRep, #numOfSingleWordsRep, #numOfTwoWordPhrasesRep {
+    margin-top: 0px;
+    margin-left: 15px;
+}
 #summary {
     margin-top: 0px;
+}
+@media screen and (max-width: 500px) {
+    header, main, footer {
+        width: 100%;
+    }
+    #extraWords {
+        width: 100%;
+    }
 }
