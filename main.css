@@ -42,6 +42,9 @@ button:hover {
     background-color: gold;
     cursor: pointer;
 }
+.innerOptionsDiv {
+    margin: 15px 0px;
+}
 .optionsTextSpacing {
     margin: 0px 0px 0px 3px;
 }
@@ -58,7 +61,6 @@ button:hover {
 .variableNumbersToDisplay div {
     display: flex;
     align-items: center;
-    padding: 5px;
     line-height: 100%;
 }
 #inputInterface {
@@ -83,7 +85,7 @@ button:hover {
 }
 #options {
     display: none;
-    padding: 10px 15px 15px 15px;
+    padding: 10px 15px 5px 15px;
     border: 1px solid black;
     margin: 0px 0px 15px 0px;
 }
@@ -99,7 +101,7 @@ button:hover {
 #extraWords {
     border: 1px solid black;
     width: 300px;
-    margin: 10px 0px 3px 0px;
+    margin: 0px 0px 3px 0px;
 }
 #numOfTwoLettersRep, #numOfSingleWordsRep, #numOfTwoWordPhrasesRep {
     margin-top: 0px;
