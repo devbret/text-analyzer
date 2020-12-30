@@ -17,11 +17,17 @@ function main() {
     let excludedWords = [];
     const vowels = [`a`,`e`,`i`,`o`,`u`];
     const punctuation = [`.`,`,`,`?`,`!`,`:`,`;`,`-`,`_`,`'`,`"`,`(`,`)`,`]`,`[`,`/`,`@`,`#`,`$`,`%`,`^`,`&`,`*`,`=`,`\\`,`|`,`{`,`}`,`<`,`>`,"`",`~`];
-    let totalPunctuation = 0;
-    let totalLetters = [];
-    let totalChars = 0;
-    let totalVowels = 0;
-    let totalConsonants = 0;
+    const sentences = [`. `,`." `,`! `,`!" `,`? `,`?" `];
+    let totalPunctuation, totalLetters, totalChars, totalVowels, totalConsonants;
+    //////////Reseting program when page is (re)loaded.
+    window.addEventListener(`load`, function(){
+        userTextInput.value = ``;
+        exclude.checked = `true`;
+        extraWords.value = ``;
+        numOfTwoLetters.value = 50;
+        numOfSingleWords.value = 50;
+        numOfTwoWordPhrases.value = 50;
+    });
     //////////Reading settings, as determined by the user.
     //Whether or not the default words are excluded from processing.
     function excludeCheck() {
@@ -43,6 +49,15 @@ function main() {
         }
     }
     //////////Support functions for the program.
+    //Counts the number of sentences in the submitted body of text.
+    function countSentences(t,sen,index,arr){
+        if (arr[index] && arr[index + 1] && arr[index + 2]) {
+            if (sentences.some(z => z === `${arr[index]}${arr[index + 1]}${arr[index + 2]}`) || sentences.some(z => z === `${arr[index]}${arr[index + 1]}`)) {
+                ++t;
+            }
+        }
+        return t;
+    }
     //Produces usable data for the program; including the calculation of unique letters.
     function filterData(t,ind){
         const temp = ind.split(``);
@@ -174,6 +189,12 @@ function main() {
             const startTime = new Date();
             //Clearing all of the output fields to ensure previous results are not displayed.
             results.innerHTML = ``;
+            //Resetting all counters and holders from the previous run.
+            totalPunctuation = 0;
+            totalLetters = [];
+            totalChars = 0;
+            totalVowels = 0;
+            totalConsonants = 0;
             //Reseting the words to exclude, so that no added words from previous runs are included.
             excludedWords = [];
             //Checking to see if the use wants the default set of words to be excluded.
@@ -181,12 +202,8 @@ function main() {
             //Adding any additional words submitted by the user to be excluded from final results.
             additionalExcludedWords();
             //Calculating the number of sentences.
-            let totalSentences = userTextInput.value.split(`. `).length;
-            totalSentences += userTextInput.value.split(`." `).length;
-            totalSentences += userTextInput.value.split(`? `).length;
-            totalSentences += userTextInput.value.split(`?" `).length;
-            totalSentences += userTextInput.value.split(`! `).length;
-            totalSentences += userTextInput.value.split(`!" `).length;
+            const splitSentenceData = userTextInput.value.split(``);
+            const totalSentences = splitSentenceData.reduce(countSentences,0);
             //Preparing the data for use.
             const predata = userTextInput.value.split(` `);
             const filteredData = predata.filter(z => z !== ``);
